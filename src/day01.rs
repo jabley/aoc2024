@@ -20,13 +20,13 @@ fn parse(input: &str) -> (Vec<usize>, Vec<usize>) {
 }
 
 #[aoc(day1, part1)]
-fn part1(sides: &(Vec<usize>, Vec<usize>)) -> usize {
+fn part1_impl(sides: &(Vec<usize>, Vec<usize>)) -> usize {
     let (left, right) = sides;
     left.iter().zip(right).map(|(l, r)| l.abs_diff(*r)).sum()
 }
 
 #[aoc(day1, part2)]
-fn part2(sides: &(Vec<usize>, Vec<usize>)) -> usize {
+fn part2_impl(sides: &(Vec<usize>, Vec<usize>)) -> usize {
     let (left, right) = sides;
 
     // We have sorted the lists as part of parsing. Chunk by the distinct values in each list and
@@ -60,6 +60,16 @@ fn part2(sides: &(Vec<usize>, Vec<usize>)) -> usize {
     sum
 }
 
+// For CodSpeed - see https://codspeed.io/advent
+pub fn part1(input: &str) -> usize {
+    part1_impl(&parse(input))
+}
+
+// For CodSpeed - see https://codspeed.io/advent
+pub fn part2(input: &str) -> usize {
+    part2_impl(&parse(input))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -67,7 +77,7 @@ mod tests {
     #[test]
     fn part1_example() {
         assert_eq!(
-            part1(&parse(
+            part1_impl(&parse(
                 "3   4
 4   3
 2   5
@@ -82,7 +92,7 @@ mod tests {
     #[test]
     fn part2_example() {
         assert_eq!(
-            part2(&parse(
+            part2_impl(&parse(
                 "3   4
 4   3
 2   5
