@@ -1,0 +1,24 @@
+:showtitle:
+:toc: left
+:icons: font
+
+= Overview
+
+My solutions for the 2024 Advent of Code.
+
+This year I'm using https://github.com/gobanos/cargo-aoc[cargo-aoc] to manage some of the scaffolding.
+
+== Installation
+
+. `cargo install cargo-aoc`
+. Login to https://adventofcode.org/
+. Using your browser Developer Tools, get the value of the sesssion cookie
+. `cargo aoc credentials {session-cookie}`
+
+== Development
+
+`cargo aoc input [-d {day} -y {year}]` will download today's puzzle input, or the specified puzzle input if you pass arguments to the command.
+
+`cargo aoc [-d {day} -y {year}]` will run the latest implemented day, or the specified day as you wish.
+
+`cargo aoc bench` will benchmark your solution.
