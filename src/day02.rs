@@ -4,10 +4,13 @@ use crate::parse_number;
 
 #[aoc_generator(day2)]
 fn parse(input: &str) -> Vec<Vec<usize>> {
+    let mut res = Vec::with_capacity(1000);
+
     input
         .lines()
-        .map(|l| l.split_ascii_whitespace().map(parse_number).collect())
-        .collect()
+        .for_each(|l| res.push(l.split_ascii_whitespace().map(parse_number).collect()));
+
+    res
 }
 
 #[aoc(day2, part1)]
