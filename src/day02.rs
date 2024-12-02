@@ -5,11 +5,16 @@ fn parse(input: &str) -> Vec<Vec<u16>> {
     let mut res = Vec::with_capacity(1000);
 
     input.lines().for_each(|l| {
-        res.push(
-            l.split_ascii_whitespace()
-                .map(|v| v.parse::<u16>().unwrap())
-                .collect(),
-        )
+        let mut levels = Vec::with_capacity(8);
+
+        for level in l
+            .split_ascii_whitespace()
+            .map(|v| v.parse::<u16>().unwrap())
+        {
+            levels.push(level);
+        }
+
+        res.push(levels);
     });
 
     res
