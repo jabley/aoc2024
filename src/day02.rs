@@ -4,12 +4,14 @@ use aoc_runner_derive::{aoc, aoc_generator};
 fn parse(input: &str) -> Vec<Vec<u16>> {
     let mut res = Vec::with_capacity(1000);
 
-    input.lines().for_each(|l| {
+    input.as_bytes().split(|b| *b == b'\n').for_each(|l| {
         let mut levels = Vec::with_capacity(8);
 
         for level in l
-            .split_ascii_whitespace()
-            .map(|v| v.parse::<u16>().unwrap())
+            .split(|b| *b == b' ')
+            // skip empty lines like the last one in the input file...
+            .filter(|v| !v.is_empty())
+            .map(parse_u16)
         {
             levels.push(level);
         }
@@ -18,6 +20,17 @@ fn parse(input: &str) -> Vec<Vec<u16>> {
     });
 
     res
+}
+
+fn parse_u16(v: &[u8]) -> u16 {
+    // In our problem input, we only have 1 or 2 digit numbers. Optimise for that.
+    match v.len() {
+        // b'8' => 8_u16
+        1 => unsafe { (v.get_unchecked(0) - 48) as u16 },
+        // b'85' => (8 * 10 + 5)_u16
+        2 => unsafe { (v.get_unchecked(0) - 48) as u16 * 10 + (v.get_unchecked(1) - 48) as u16 },
+        _ => panic!("Not parsing '{:?}' into a u16", v),
+    }
 }
 
 #[aoc(day2, part1)]
