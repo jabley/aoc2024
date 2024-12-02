@@ -3,7 +3,7 @@ use aoc_runner_derive::{aoc, aoc_generator};
 use crate::parse_number;
 
 #[aoc_generator(day1)]
-fn parse(input: &str) -> (Vec<usize>, Vec<usize>) {
+fn parse(input: &str) -> (Vec<u32>, Vec<u32>) {
     let mut left = Vec::with_capacity(1000);
     let mut right = Vec::with_capacity(1000);
 
@@ -23,13 +23,13 @@ fn parse(input: &str) -> (Vec<usize>, Vec<usize>) {
 }
 
 #[aoc(day1, part1)]
-fn part1_impl(sides: &(Vec<usize>, Vec<usize>)) -> usize {
+fn part1_impl(sides: &(Vec<u32>, Vec<u32>)) -> u32 {
     let (left, right) = sides;
     left.iter().zip(right).map(|(l, r)| l.abs_diff(*r)).sum()
 }
 
 #[aoc(day1, part2)]
-fn part2_impl(sides: &(Vec<usize>, Vec<usize>)) -> usize {
+fn part2_impl(sides: &(Vec<u32>, Vec<u32>)) -> u32 {
     let (left, right) = sides;
 
     // We have sorted the lists as part of parsing. Chunk by the distinct values in each list and
@@ -51,7 +51,7 @@ fn part2_impl(sides: &(Vec<usize>, Vec<usize>)) -> usize {
                 left.next();
             }
             std::cmp::Ordering::Equal => {
-                sum += x[0] * x.len() * y.len();
+                sum += x[0] * x.len() as u32 * y.len() as u32;
                 left.next();
                 right.next();
             }
@@ -64,12 +64,12 @@ fn part2_impl(sides: &(Vec<usize>, Vec<usize>)) -> usize {
 }
 
 // For CodSpeed - see https://codspeed.io/advent
-pub fn part1(input: &str) -> usize {
+pub fn part1(input: &str) -> u32 {
     part1_impl(&parse(input))
 }
 
 // For CodSpeed - see https://codspeed.io/advent
-pub fn part2(input: &str) -> usize {
+pub fn part2(input: &str) -> u32 {
     part2_impl(&parse(input))
 }
 

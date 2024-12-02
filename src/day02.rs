@@ -1,20 +1,22 @@
 use aoc_runner_derive::{aoc, aoc_generator};
 
-use crate::parse_number;
-
 #[aoc_generator(day2)]
-fn parse(input: &str) -> Vec<Vec<usize>> {
+fn parse(input: &str) -> Vec<Vec<u16>> {
     let mut res = Vec::with_capacity(1000);
 
-    input
-        .lines()
-        .for_each(|l| res.push(l.split_ascii_whitespace().map(parse_number).collect()));
+    input.lines().for_each(|l| {
+        res.push(
+            l.split_ascii_whitespace()
+                .map(|v| v.parse::<u16>().unwrap())
+                .collect(),
+        )
+    });
 
     res
 }
 
 #[aoc(day2, part1)]
-fn part1_impl(input: &[Vec<usize>]) -> usize {
+fn part1_impl(input: &[Vec<u16>]) -> u16 {
     input
         .iter()
         .map(|report| match is_safe(report) {
@@ -24,7 +26,7 @@ fn part1_impl(input: &[Vec<usize>]) -> usize {
         .sum()
 }
 
-fn is_safe(report: &[usize]) -> Option<usize> {
+fn is_safe(report: &[u16]) -> Option<usize> {
     let mut direction: Option<std::cmp::Ordering> = None;
 
     for (i, pair) in report.windows(2).enumerate() {
@@ -54,7 +56,7 @@ fn is_safe(report: &[usize]) -> Option<usize> {
 }
 
 #[aoc(day2, part2)]
-fn part2_impl(input: &[Vec<usize>]) -> usize {
+fn part2_impl(input: &[Vec<u16>]) -> u16 {
     input
         .iter()
         .map(|report| match is_safe(report) {
@@ -94,11 +96,11 @@ fn part2_impl(input: &[Vec<usize>]) -> usize {
         .sum()
 }
 
-pub fn part1(input: &str) -> usize {
+pub fn part1(input: &str) -> u16 {
     part1_impl(&parse(input))
 }
 
-pub fn part2(input: &str) -> usize {
+pub fn part2(input: &str) -> u16 {
     part2_impl(&parse(input))
 }
 

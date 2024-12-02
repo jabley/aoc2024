@@ -4,15 +4,15 @@ pub mod day1;
 pub mod day2;
 
 // POWERS_OF_10 is used in tandem with parse_number to try to take advantage of the values in our problem.
-const POWERS_OF_10: [usize; 5] = [1, 10, 100, 1000, 10000];
+const POWERS_OF_10: [u32; 5] = [1, 10, 100, 1000, 10000];
 
-fn parse_number(val: &str) -> usize {
+fn parse_number(val: &str) -> u32 {
     let radix = val.len() - 1;
 
     val.as_bytes()
         .iter()
         .enumerate()
-        .map(|(n, c)| (c - 48) as usize * POWERS_OF_10[radix - n])
+        .map(|(n, c)| (c - 48) as u32 * POWERS_OF_10[radix - n])
         .sum()
 }
 
