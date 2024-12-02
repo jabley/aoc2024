@@ -17,3 +17,6 @@ harness = false
 [[bench]]
 name = "day02_benchmark"
 harness = false
+
+[profile.bench]
+lto = "fat"
