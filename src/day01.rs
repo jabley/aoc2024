@@ -12,8 +12,8 @@ fn parse(input: &str) -> (Vec<usize>, Vec<usize>) {
         // But here we play fast and loose with number parsing.
         // We know our inputs are all positive. So we skip error handling, sign handling and other stuff this way.
         let mut parts = line.split_ascii_whitespace().map(parse_number);
-        left.push(parts.next().unwrap());
-        right.push(parts.next().unwrap());
+        left.push(unsafe { parts.next().unwrap_unchecked() });
+        right.push(unsafe { parts.next().unwrap_unchecked() });
     });
 
     left.sort_unstable();
