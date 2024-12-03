@@ -33,15 +33,12 @@ fn parse_u16(v: &[u8]) -> u16 {
     }
 }
 
-#[aoc(day2, part1)]
+#[aoc(day2, part1, naive)]
 fn part1_impl(input: &[Vec<u16>]) -> u16 {
     input
         .iter()
-        .map(|report| match is_safe(report) {
-            Some(_) => 0,
-            None => 1,
-        })
-        .sum()
+        .filter(|report| is_safe(report).is_none())
+        .count() as u16
 }
 
 fn is_safe(report: &[u16]) -> Option<usize> {
@@ -73,7 +70,7 @@ fn is_safe(report: &[u16]) -> Option<usize> {
     None
 }
 
-#[aoc(day2, part2)]
+#[aoc(day2, part2, naive)]
 fn part2_impl(input: &[Vec<u16>]) -> u16 {
     input
         .iter()
@@ -129,14 +126,14 @@ mod tests {
     #[test]
     fn part1_example() {
         assert_eq!(
-            part1_impl(&parse(
+            part1(
                 "7 6 4 2 1
 1 2 7 8 9
 9 7 6 2 1
 1 3 2 4 5
 8 6 4 4 1
 1 3 6 7 9"
-            )),
+            ),
             2
         )
     }
@@ -144,39 +141,23 @@ mod tests {
     #[test]
     fn part2_example() {
         assert_eq!(
-            part2_impl(&parse(
+            part2(
                 "7 6 4 2 1
 1 2 7 8 9
 9 7 6 2 1
 1 3 2 4 5
 8 6 4 4 1
 1 3 6 7 9"
-            )),
+            ),
             4
         );
     }
 
     #[test]
     fn part2_boundary_conditions() {
-        assert_eq!(
-            part2_impl(&parse("1 3 6 7 9 5")),
-            1,
-            "last level can be dampened"
-        );
-        assert_eq!(
-            part2_impl(&parse("9 1 2 3 4 5")),
-            1,
-            "first level can be dampened"
-        );
-        assert_eq!(
-            part2_impl(&parse("5 2 3 4 5")),
-            1,
-            "first level can be dampened"
-        );
-        assert_eq!(
-            part2_impl(&parse("1 2 2 4 7")),
-            1,
-            "second level can be dampened"
-        );
+        assert_eq!(part2("1 3 6 7 9 5"), 1, "last level can be dampened");
+        assert_eq!(part2("9 1 2 3 4 5"), 1, "first level can be dampened");
+        assert_eq!(part2("5 2 3 4 5"), 1, "first level can be dampened");
+        assert_eq!(part2("1 2 2 4 7"), 1, "second level can be dampened");
     }
 }
