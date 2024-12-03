@@ -2,6 +2,8 @@
 pub mod day1;
 #[path = "day02.rs"]
 pub mod day2;
+#[path = "day03.rs"]
+pub mod day3;
 
 // POWERS_OF_10 is used in tandem with parse_number to try to take advantage of the values in our problem.
 const POWERS_OF_10: [u32; 5] = [1, 10, 100, 1000, 10000];
