@@ -111,8 +111,25 @@ fn part2_impl(input: &[Vec<u16>]) -> u16 {
         .sum()
 }
 
+fn part1_inline(input: &str) -> u16 {
+    let mut levels = Vec::with_capacity(10);
+    input
+        .as_bytes()
+        .split(|b| *b == b'\n')
+        .filter(|v| !v.is_empty())
+        .filter(|line| {
+            levels.clear();
+            line.split(|b| *b == b' ')
+                .map(parse_u16)
+                .for_each(|v| levels.push(v));
+
+            is_safe(&levels).is_none()
+        })
+        .count() as u16
+}
+
 pub fn part1(input: &str) -> u16 {
-    part1_impl(&parse(input))
+    part1_inline(input)
 }
 
 pub fn part2(input: &str) -> u16 {
