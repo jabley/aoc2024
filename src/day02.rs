@@ -128,12 +128,49 @@ fn part1_inline(input: &str) -> u16 {
         .count() as u16
 }
 
+fn part2_inline(input: &str) -> u16 {
+    let mut report = Vec::with_capacity(10);
+    input
+        .as_bytes()
+        .split(|b| *b == b'\n')
+        .filter(|v| !v.is_empty())
+        .filter(|line| {
+            report.clear();
+            line.split(|b| *b == b' ')
+                .map(parse_u16)
+                .for_each(|v| report.push(v));
+
+            if let Some(i) = is_safe(&report) {
+                if i > 0
+                    && i < report.len()
+                    && is_safe(&[&report[..(i - 1)], &report[i..]].concat()).is_none()
+                {
+                    return true;
+                }
+
+                if is_safe(&[&report[..i], &report[(i + 1)..]].concat()).is_none() {
+                    true
+                } else {
+                    let skip_next = if i < report.len() - 1 {
+                        is_safe(&[&report[..(i + 1)], &report[(i + 2)..]].concat())
+                    } else {
+                        Some(i)
+                    };
+                    skip_next.is_none()
+                }
+            } else {
+                true
+            }
+        })
+        .count() as u16
+}
+
 pub fn part1(input: &str) -> u16 {
     part1_inline(input)
 }
 
 pub fn part2(input: &str) -> u16 {
-    part2_impl(&parse(input))
+    part2_inline(input)
 }
 
 #[cfg(test)]
