@@ -2,6 +2,7 @@ use aoc_runner_derive::{aoc, aoc_generator};
 use winnow::{
     ascii::dec_uint,
     combinator::{delimited, separated_pair},
+    stream::FindSlice,
     PResult, Parser,
 };
 
@@ -33,14 +34,21 @@ fn parse_part1(input: &str) -> Vec<Mul> {
     let input = input.as_bytes();
 
     while i < input.len() {
-        let mut suffix = &input[i..];
-        let n = suffix.len();
+        let haystack = &input[i..];
 
-        if let Ok(mul) = mul(&mut suffix) {
-            res.push(mul);
-            let chars_parsed = n - suffix.len();
-            i += chars_parsed;
-            continue;
+        // Skip to the next thing that looks like an expression prefix "mul("
+        if let Some(index) = haystack.find_slice(&b"mul("[..]) {
+            i += index.start;
+            let mut suffix = &input[i..];
+            let n = suffix.len();
+
+            // and then try to parse it as an expression
+            if let Ok(mul) = mul(&mut suffix) {
+                res.push(mul);
+                let chars_parsed = n - suffix.len();
+                i += chars_parsed;
+                continue;
+            }
         }
 
         i += 1;
