@@ -15,12 +15,12 @@ impl Mul {
 }
 
 /// Parses something like 123,456
-fn number_pair(i: &mut &str) -> PResult<(u32, u32)> {
+fn number_pair(i: &mut &[u8]) -> PResult<(u32, u32)> {
     separated_pair(dec_uint, ',', dec_uint).parse_next(i)
 }
 
 /// Parses a mul instruction like `mul(123, 44)`
-fn mul(i: &mut &str) -> PResult<Mul> {
+fn mul(i: &mut &[u8]) -> PResult<Mul> {
     delimited("mul(", number_pair, ')').map(Mul).parse_next(i)
 }
 
@@ -29,6 +29,8 @@ fn parse_part1(input: &str) -> Vec<Mul> {
     let mut res = Vec::with_capacity(8);
 
     let mut i = 0;
+
+    let input = input.as_bytes();
 
     while i < input.len() {
         let mut suffix = &input[i..];
@@ -60,13 +62,15 @@ fn parse_part2(input: &str) -> Vec<Mul> {
 
     let mut enabled = true;
 
+    let input = input.as_bytes();
+
     while i < input.len() {
-        if input[i..].starts_with("do()") {
+        if input[i..].starts_with(b"do()") {
             enabled = true;
             i += 4;
             continue;
         }
-        if input[i..].starts_with("don't()") {
+        if input[i..].starts_with(b"don't()") {
             enabled = false;
             i += 7;
             continue;
