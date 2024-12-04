@@ -26,8 +26,8 @@ fn mul(i: &mut &[u8]) -> PResult<Mul> {
 }
 
 #[aoc_generator(day3, part1)]
-fn parse_part1(input: &str) -> Vec<Mul> {
-    let mut res = Vec::with_capacity(8);
+fn parse_part1(input: &str) -> u32 {
+    let mut res = 0;
 
     let mut i = 0;
 
@@ -44,7 +44,7 @@ fn parse_part1(input: &str) -> Vec<Mul> {
 
             // and then try to parse it as an expression
             if let Ok(mul) = mul(&mut suffix) {
-                res.push(mul);
+                res += mul.eval();
                 let chars_parsed = n - suffix.len();
                 i += chars_parsed;
                 continue;
@@ -58,13 +58,13 @@ fn parse_part1(input: &str) -> Vec<Mul> {
 }
 
 #[aoc(day3, part1)]
-fn part1_impl(input: &[Mul]) -> u32 {
-    input.iter().map(|m| m.eval()).sum()
+fn part1_impl(input: &u32) -> u32 {
+    *input
 }
 
 #[aoc_generator(day3, part2)]
-fn parse_part2(input: &str) -> Vec<Mul> {
-    let mut res = Vec::with_capacity(8);
+fn parse_part2(input: &str) -> u32 {
+    let mut res = 0;
 
     let mut i = 0;
 
@@ -89,7 +89,7 @@ fn parse_part2(input: &str) -> Vec<Mul> {
 
         if enabled {
             if let Ok(mul) = mul(&mut suffix) {
-                res.push(mul);
+                res += mul.eval();
                 let chars_parsed = n - suffix.len();
                 i += chars_parsed;
                 continue;
@@ -103,8 +103,8 @@ fn parse_part2(input: &str) -> Vec<Mul> {
 }
 
 #[aoc(day3, part2)]
-fn part2_impl(input: &[Mul]) -> u32 {
-    input.iter().map(|m| m.eval()).sum()
+fn part2_impl(input: &u32) -> u32 {
+    *input
 }
 
 pub fn part1(input: &str) -> u32 {
