@@ -6,7 +6,7 @@ fn parse(input: &str) -> Vec<&[u8]> {
 }
 
 #[aoc(day4, part1)]
-fn part1(input: &str) -> usize {
+pub fn part1(input: &str) -> usize {
     let m = parse(input);
 
     let mut res = 0;
@@ -23,15 +23,15 @@ fn part1(input: &str) -> usize {
 }
 
 #[aoc(day4, part2)]
-fn part2(input: &str) -> u16 {
+pub fn part2(input: &str) -> u16 {
     let m = parse(input);
 
     let mut res = 0;
 
     // 'A' must be inside the border in valid arrangements, so we can cut off a couple of
     // iterations in both dimensions
-    for r in 1..m.len()-1 {
-        for c in 1..m[0].len()-1 {
+    for r in 1..m.len() - 1 {
+        for c in 1..m[0].len() - 1 {
             if m[r][c] == b'A' {
                 res += is_x_mas(&m, r, c) as u16
             }
