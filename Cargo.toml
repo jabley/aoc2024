@@ -24,5 +24,9 @@ harness = false
 name = "day03_benchmark"
 harness = false
 
+[[bench]]
+name = "day04_benchmark"
+harness = false
+
 [profile.bench]
 lto = "fat"
