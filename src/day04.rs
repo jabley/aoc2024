@@ -6,7 +6,7 @@ fn parse(input: &str) -> Vec<&[u8]> {
 }
 
 #[aoc(day4, part1)]
-pub fn part1(input: &str) -> usize {
+pub fn part1(input: &str) -> u16 {
     let m = parse(input);
 
     let mut res = 0;
@@ -46,9 +46,9 @@ fn get(m: &[&[u8]], r: usize, c: usize) -> u8 {
 }
 
 /// Returns the count, given we have an X, of the surrounding squares of many MAS sequences we have hanging off that in every direction.
-fn count_xmas(m: &[&[u8]], r: usize, c: usize) -> usize {
+fn count_xmas(m: &[&[u8]], r: usize, c: usize) -> u16 {
     [
-        (0, -1),
+        (0_i16, -1_i16),
         (-1, 0),
         (0, 1),
         (1, 0),
@@ -60,11 +60,14 @@ fn count_xmas(m: &[&[u8]], r: usize, c: usize) -> usize {
     .iter()
     .filter(|(dr, dc)| {
         (1..4).all(|i| {
-            let (rr, cc) = (r + (dr * i) as usize, c + (dc * i) as usize);
-            get(m, rr, cc) == b"XMAS"[i as usize]
+            let (rr, cc) = (r as i16 + (dr * i), c as i16 + (dc * i));
+            if rr < 0 || cc < 0 || rr as usize >= m.len() || cc as usize >= m[0].len() {
+                return false;
+            }
+            get(m, rr as usize, cc as usize) == b"XMAS"[i as usize]
         })
     })
-    .count()
+    .count() as u16
 }
 
 /// Returns true if, given we have an A, search the surrounding corners of the immediate square to check that we have an MS or SM across the diagonals.
