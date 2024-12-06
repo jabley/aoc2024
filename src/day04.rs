@@ -60,11 +60,11 @@ fn count_xmas(m: &[&[u8]], r: usize, c: usize) -> u16 {
     .iter()
     .filter(|(dr, dc)| {
         (1..4).all(|i| {
-            let (rr, cc) = (r as i16 + (dr * i), c as i16 + (dc * i));
-            if rr < 0 || cc < 0 || rr as usize >= m.len() || cc as usize >= m[0].len() {
-                return false;
-            }
-            get(m, rr as usize, cc as usize) == b"XMAS"[i as usize]
+            let (rr, cc) = (
+                r.wrapping_add((dr * i) as usize),
+                c.wrapping_add((dc * i) as usize),
+            );
+            get(m, rr, cc) == b"XMAS"[i as usize]
         })
     })
     .count() as u16
