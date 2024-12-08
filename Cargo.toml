@@ -12,7 +12,7 @@ rustc-hash = "2.1.0"
 winnow = "0.6.20"
 
 [dev-dependencies]
-criterion = "0.5.1"
+criterion = { package = "codspeed-criterion-compat", version = "*" }
 
 [[bench]]
 name = "day01_benchmark"
